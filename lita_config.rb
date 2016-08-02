@@ -3,14 +3,16 @@ Lita.configure do |config|
   config.robot.locale = :en
   config.robot.log_level = :info
 
-  case ENV["RACK_ENV"]
-  when "production"
+  if ENV.has_key?("SLACK_TOKEN")
     config.robot.adapter = :slack
-    config.adapters.slack.token = "xoxb-65291979888-k8tUea3KU83uSojSiVDtV62H"
-    config.robot.admins = {"indirect" => "U03LDE805", "cyrin" => "U0ZBFPJD9"}.values
+    config.adapters.slack.token = ENV["SLACK_TOKEN"]
+    config.robot.admins = {
+      "indirect" => "U03LDE805",
+      "cyrin" => "U0ZBFPJD9"
+    }.values
 
     config.redis[:url] = ENV["REDISTOGO_URL"]
-    config.http.port = ENV["PORT"]
+    config.http.port = ENV.fetch("PORT", 13374)
   else
     config.robot.adapter = :shell
   end
