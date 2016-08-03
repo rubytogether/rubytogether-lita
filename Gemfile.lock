@@ -1,6 +1,15 @@
 GIT
+  remote: git://github.com/indirect/lita-tweet.git
+  revision: 65ba718f01c97534e44579f2062f663aaa736cbe
+  branch: master
+  specs:
+    lita-tweet (0.1.0)
+      lita (>= 4.7)
+
+GIT
   remote: git://github.com/litaio/lita-slack.git
   revision: 6a1b5624036f98076f213fadd6421a13c3e5a1e5
+  branch: master
   specs:
     lita-slack (1.7.2)
       eventmachine
@@ -56,6 +65,7 @@ PLATFORMS
 DEPENDENCIES
   lita
   lita-slack!
+  lita-tweet!
 
 RUBY VERSION
    ruby 2.3.1p112
