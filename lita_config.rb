@@ -1,3 +1,5 @@
+require "lita-slack" if ENV.has_key?("SLACK_TOKEN")
+
 Lita.configure do |config|
   config.robot.name = "Lita"
   config.robot.locale = :en
