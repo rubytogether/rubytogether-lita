@@ -18,4 +18,7 @@ Lita.configure do |config|
 
   config.redis[:url] = ENV["REDISTOGO_URL"] || ENV["REDIS_URL"] || "redis://localhost:6379"
   config.http.port = ENV["PORT"] || "13374"
+
+  config.twitter.consumer_key = ENV.fetch("TWITTER_CONSUMER_KEY")
+  config.twitter.consumer_secret = ENV.fetch("TWITTER_CONSUMER_SECRET")
 end
