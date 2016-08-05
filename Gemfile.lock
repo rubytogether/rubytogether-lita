@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/indirect/lita-tweet.git
-  revision: 5faaea8d98353ed6e44e917e97af87c544eca427
+  revision: 66e0272df6ec34dd431601c611db2bb3a5cf7268
   branch: master
   specs:
     lita-tweet (0.2.0)
