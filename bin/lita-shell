@@ -1,0 +1,3 @@
+#!/bin/bash
+unset SLACK_TOKEN
+bin/lita
