@@ -15,6 +15,7 @@ Lita.configure do |config|
   else
     config.robot.adapter = :shell
     config.robot.admins = {"shell user" => "1"}.values
+    config.adapters.shell.private_chat = true
   end
 
   config.redis[:url] = ENV["REDISTOGO_URL"] || ENV["REDIS_URL"] || "redis://localhost:6379"
