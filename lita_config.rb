@@ -12,6 +12,7 @@ Lita.configure do |config|
       "cyrin" => "U0ZBFPJD9"
     }.values
   else
+    warn "SLACK_TOKEN is not set, running with shell interface"
     config.robot.adapter = :shell
     config.robot.admins = {"shell user" => "1"}.values
     config.adapters.shell.private_chat = true
