@@ -1,4 +1,5 @@
 require "lita-slack" if ENV.has_key?("SLACK_TOKEN")
+require "lita-tweet" if ENV.has_key?("TWITTER_CONSUMER_KEY")
 
 Lita.configure do |config|
   config.robot.name = "Lita"
@@ -25,7 +26,9 @@ Lita.configure do |config|
   config.redis[:url] = ENV["REDISTOGO_URL"] || ENV["REDIS_URL"] || "redis://localhost:6379"
   config.http.port = ENV.fetch("PORT", "13374")
 
-  config.handlers.tweet.http_url = ENV["SERVER_URL"]
-  config.handlers.tweet.consumer_key = ENV.fetch("TWITTER_CONSUMER_KEY")
-  config.handlers.tweet.consumer_secret = ENV.fetch("TWITTER_CONSUMER_SECRET")
+  if ENV.has_key?("TWITTER_CONSUMER_KEY")
+    config.handlers.tweet.http_url = ENV["SERVER_URL"]
+    config.handlers.tweet.consumer_key = ENV.fetch("TWITTER_CONSUMER_KEY")
+    config.handlers.tweet.consumer_secret = ENV.fetch("TWITTER_CONSUMER_SECRET")
+  end
 end
