@@ -1,3 +1,4 @@
 #!/bin/bash
 unset SLACK_TOKEN
+export LITA_SHELL="true"
 bin/lita
