@@ -14,6 +14,6 @@ Make sure you set these ENV variables:
 
 ## Testing
 
-`./bin/lita` to run lita in the slack channel
+`bin/lita` to run lita in the slack channel
 
-`./bin/lita-shell` to run in a shell
+`bin/lita-shell` to run in a shell
