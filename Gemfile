@@ -8,4 +8,5 @@ gem "lita-slack", github: "litaio/lita-slack", branch: "master", require: false
 
 group :development do
   gem "pry-byebug"
+  gem "lita-ping"
 end
