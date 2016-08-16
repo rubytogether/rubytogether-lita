@@ -11,3 +11,9 @@ Make sure you set these ENV variables:
 | TWITTER_CONSUMER_KEY        | Twitter consumer key |
 | TWITTER_CONSUMER_SECRET     | Twitter consumer secret |
 | TWITTER_ACCOUNTS            | Hash of Twitter accounts and access tokens |
+
+## Testing
+
+`./bin/lita` to run lita in the slack channel
+
+`./bin/lita-shell` to run in a shell
