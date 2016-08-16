@@ -20,6 +20,14 @@ GIT
       lita (>= 4.7.0)
       multi_json
 
+GIT
+  remote: git://github.com/lynnco/lita-ping.git
+  revision: a7399d9a39b98d7ac661578a293082f13a47396a
+  branch: patch-1
+  specs:
+    lita-ping (1.1.1)
+      lita (>= 2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -67,8 +75,6 @@ GEM
     lita-dotenv (0.9.0)
       dotenv (~> 2.0)
       lita (>= 4.4)
-    lita-ping (1.1.1)
-      lita (>= 2.0)
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
     method_source (0.8.2)
@@ -119,7 +125,7 @@ PLATFORMS
 DEPENDENCIES
   lita
   lita-dotenv
-  lita-ping
+  lita-ping!
   lita-slack!
   lita-tweet!
   pry-byebug
