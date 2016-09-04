@@ -3,7 +3,7 @@ ruby "2.3.1"
 
 gem "lita"
 gem "lita-dotenv"
-gem "lita-tweet", github: "indirect/lita-tweet", branch: "master"
+gem "lita-tweet", "~> 0.4.0"
 gem "lita-slack", github: "litaio/lita-slack", branch: "master", require: false
 
 group :development do

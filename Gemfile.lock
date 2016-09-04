@@ -1,14 +1,4 @@
 GIT
-  remote: git://github.com/indirect/lita-tweet.git
-  revision: 102096e61697b31d9f3c25075ecb409e1c3655a3
-  branch: master
-  specs:
-    lita-tweet (0.3.0)
-      lita (>= 4.7)
-      oauth (~> 0.5.1)
-      twitter (~> 5.16)
-
-GIT
   remote: git://github.com/litaio/lita-slack.git
   revision: 6a1b5624036f98076f213fadd6421a13c3e5a1e5
   branch: master
@@ -75,6 +65,10 @@ GEM
     lita-dotenv (0.9.0)
       dotenv (~> 2.0)
       lita (>= 4.4)
+    lita-tweet (0.4.0)
+      lita (>= 4.7)
+      oauth (~> 0.5.1)
+      twitter (~> 5.16)
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
     method_source (0.8.2)
@@ -127,7 +121,7 @@ DEPENDENCIES
   lita-dotenv
   lita-ping!
   lita-slack!
-  lita-tweet!
+  lita-tweet (~> 0.4.0)
   pry-byebug
 
 RUBY VERSION
