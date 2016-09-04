@@ -10,14 +10,6 @@ GIT
       lita (>= 4.7.0)
       multi_json
 
-GIT
-  remote: git://github.com/lynnco/lita-ping.git
-  revision: a7399d9a39b98d7ac661578a293082f13a47396a
-  branch: patch-1
-  specs:
-    lita-ping (1.1.1)
-      lita (>= 2.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -25,7 +17,7 @@ GEM
     buftok (0.2.0)
     byebug (9.0.5)
     coderay (1.1.1)
-    domain_name (0.5.20160615)
+    domain_name (0.5.20160826)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.1.1)
     equalizer (0.0.10)
@@ -119,7 +111,6 @@ PLATFORMS
 DEPENDENCIES
   lita
   lita-dotenv
-  lita-ping!
   lita-slack!
   lita-tweet (~> 0.4.0)
   pry-byebug
