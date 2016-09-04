@@ -5,6 +5,7 @@ gem "lita"
 gem "lita-dotenv"
 gem "lita-tweet", "~> 0.4.0"
 gem "lita-slack", github: "litaio/lita-slack", branch: "master", require: false
+gem "lita-retro"
 
 group :development do
   gem "pry-byebug"
