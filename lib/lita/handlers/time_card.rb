@@ -26,10 +26,7 @@ module Lita
         log.debug "[time_card] #{user.name} #{date} (#{minutes} minutes): #{message}"
 
         post = { worker: user.name, date: date.to_s, minutes: minutes.to_i, message: message }
-        r = Faraday::Connection
-          .new("https://ruby-together-time-card.herokuapp.com")
-          .basic_auth("admin", config.token)
-          .post("/entries", post)
+        r = authenticated_connection.post("/entries", post)
 
         log.debug "[time_card] response = #{r.inspect}"
         response.reply("[time_card]\n```json\n#{r.body}\n```")
@@ -43,17 +40,18 @@ module Lita
       route %r{^time_card raw (\w+) ([/.\w]+)(.+)?}m,
         :raw,
         command: true,
-        help: { "time_card raw METHOD PATH JSON_BODY" => "Send a raw, authenticated request to the time card API." }
+        help: { "time_card raw METHOD PATH [JSON_BODY]" => "Send a raw, authenticated request to the time card API." }
 
       def raw(response)
         method, path, json = *response.match_data
         log.debug "[time_card] #{response.message.user.name} #{method} #{path} #{json}"
 
-        post = json && JSON.parse(json)
-        r = Faraday::Connection
-          .new("https://ruby-together-time-card.herokuapp.com")
-          .basic_auth("admin", config.token)
-          .run_request(method.downcase.to_sym, path, post, nil)
+        post = begin
+          json && JSON.parse(json)
+        rescue => e
+          return response.reply("[time_card] using ```json\n#{json}\n``` as a JSON body failed")
+        end
+        r = authenticated_connection.run_request(method.downcase.to_sym, path, post, nil)
 
         log.debug "[time_card] response = #{r.inspect}"
         response.reply("[time_card]\n```json\n#{r.body}\n```")
@@ -69,14 +67,18 @@ module Lita
         date ||= Date.today
         log.debug "[time_card] biweekly report for #{date}"
 
-        post = { worker: user.name, date: date.to_s, minutes: minutes.to_i, message: message }
-        r = Faraday::Connection
-          .new("https://ruby-together-time-card.herokuapp.com")
-          .basic_auth("admin", config.token)
-          .post("/report/biweekly/#{date}", post)
+        r = authenticated_connection.get("/report/biweekly/#{date}")
 
         log.debug "[time_card] response = #{r.inspect}"
         response.reply("[time_card] report for #{date}\n```\n#{r.body}\n```")
+      end
+
+      private
+
+      def authenticated_connection
+        Faraday::Connection
+          .new("https://ruby-together-time-card.herokuapp.com")
+          .tap {|c| c.basic_auth("admin", config.token) }
       end
     end
 
