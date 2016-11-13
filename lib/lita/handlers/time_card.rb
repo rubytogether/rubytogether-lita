@@ -19,7 +19,7 @@ module Lita
 
       def log_time(response)
         user = response.message.user
-        _, minutes, date, message = response.match_data["time"], response.match_data["date"], response.match_data["message"]
+        minutes, date, message = response.match_data["time"], response.match_data["date"], response.match_data["message"]
         minutes = parse_time(minutes)
         user_time_zone = user.metadata["tz_offset"].to_i
         date ||= Time.now.getlocal(user_time_zone)
