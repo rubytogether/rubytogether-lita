@@ -19,7 +19,7 @@ module Lita
 
       def log_time(response)
         user = response.message.user
-        minutes, date, message = response.match_data["time"], response.match_data["date"], response.match_data["message"]
+        _, minutes, date, message = response.match_data["time"], response.match_data["date"], response.match_data["message"]
         minutes = parse_time(minutes)
         user_time_zone = user.metadata["tz_offset"].to_i
         date ||= Time.now.getlocal(user_time_zone)
@@ -29,7 +29,7 @@ module Lita
         r = authenticated_connection.post("/entries", post)
 
         log.debug "[time_card] response = #{r.inspect}"
-        response.reply("[time_card]\n```json\n#{r.body}\n```")
+        response.reply("[time_card]\n```\n#{r.body}\n```")
       end
 
       def parse_time(string)
@@ -43,18 +43,18 @@ module Lita
         help: { "time_card raw METHOD PATH [JSON_BODY]" => "Send a raw, authenticated request to the time card API." }
 
       def raw(response)
-        method, path, json = *response.match_data
+        _, method, path, json = *response.match_data
         log.debug "[time_card] #{response.message.user.name} #{method} #{path} #{json}"
 
         post = begin
           json && JSON.parse(json)
         rescue => e
-          return response.reply("[time_card] using ```json\n#{json}\n``` as a JSON body failed")
+          return response.reply("[time_card] using ```\n#{json}\n``` as a JSON body failed")
         end
         r = authenticated_connection.run_request(method.downcase.to_sym, path, post, nil)
 
         log.debug "[time_card] response = #{r.inspect}"
-        response.reply("[time_card]\n```json\n#{r.body}\n```")
+        response.reply("[time_card]\n```\n#{r.body}\n```")
       end
 
       route %r{^time_card biweekly(?: (\d{4}-\d{2}-\d{2}))?},
@@ -63,7 +63,7 @@ module Lita
         help: { "time_card biweekly [DATE]" => "Privately print the biweekly report." }
 
       def biweekly_report(response)
-        date, = *response.match_data
+        _, date = *response.match_data
         date ||= Date.today
         log.debug "[time_card] biweekly report for #{date}"
 
