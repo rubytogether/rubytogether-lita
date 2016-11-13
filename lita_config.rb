@@ -31,4 +31,6 @@ Lita.configure do |config|
     config.handlers.tweet.consumer_key = ENV.fetch("TWITTER_CONSUMER_KEY")
     config.handlers.tweet.consumer_secret = ENV.fetch("TWITTER_CONSUMER_SECRET")
   end
+
+  config.handlers.time_card.token = ENV["TIME_CARD_PASSWORD"]
 end
