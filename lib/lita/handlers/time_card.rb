@@ -90,8 +90,11 @@ module Lita
 
       def authenticated_connection
         Faraday::Connection
-          .new("https://ruby-together-time-card.herokuapp.com")
-          .tap {|c| c.basic_auth("admin", config.token) }
+          .new("https://ruby-together-time-card.herokuapp.com") do |conn|
+            conn.basic_auth("admin", config.token)
+            conn.use FaradayMiddleware::FollowRedirects, limit: 5
+            conn.adapter Faraday.default_adapter
+          end
       end
     end
 
