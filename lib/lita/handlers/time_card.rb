@@ -7,9 +7,9 @@ module Lita
       config :token
 
       STRING_TO_MINUTES = {
-        /(\d+)m?/i => -> { $1.to_i },
-        /(\d+):(\d+)/i => -> { $1.to_i * 60 + $2.to_i },
-        /(\d+(?:\.(\d+)))?h/i => -> { $1.to_f * 60.0 },
+        /(\d+)m?/i => ->(minutes) { minutes.to_i },
+        /(\d+):(\d+)/i => ->(hours, minutes) { hours.to_i * 60 + minutes.to_i },
+        /(\d+(?:\.\d+)?)h/i => ->(hours) { hours.to_f * 60.0 },
       }
 
       route %r{^time_card (?<time>#{Regexp.union STRING_TO_MINUTES.keys})(?: (?<date>\d{4}-\d{2}-\d{2}))? (?<message>.+)}m,
@@ -33,8 +33,10 @@ module Lita
       end
 
       def parse_time(string)
-        _, converter = STRING_TO_MINUTES.find { |pattern, _| string =~ /\A#{pattern}\z/ }
-        converter[]
+        STRING_TO_MINUTES.lazy.map do |pattern, converter|
+          match_data = /\A#{pattern}\z/.match(string)
+          match_data && converter[*match_data.captures]
+        end.find {|minutes| !minutes.nil? }
       end
 
       route %r{^time_card raw (\w+) ([/.\w]+)(.+)?}m,
