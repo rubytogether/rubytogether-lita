@@ -68,6 +68,22 @@ module Lita
         response.reply("[time_card] report for #{date}\n```\n#{r.body}\n```")
       end
 
+      route %r{^time_card monthly(?: (\d{4}-\d{2}))?},
+        :monthly_report,
+        command: true,
+        help: { "time_card monthly [DATE]" => "Privately print the monthly report." }
+
+      def monthly_report(response)
+        _, date = *response.match_data
+        date ||= Date.today.strftime("%Y-%m")
+        log.debug "[time_card] monthly report for #{date}"
+
+        r = authenticated_connection.get("/report/monthly/#{date}")
+
+        log.debug "[time_card] response = #{r.inspect}"
+        response.reply("[time_card] report for #{date}\n```\n#{r.body}\n```")
+      end
+
       private
 
       def authenticated_connection
