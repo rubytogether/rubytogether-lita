@@ -1,5 +1,6 @@
 require "lita-slack" if ENV.has_key?("SLACK_TOKEN")
 require "lita-tweet" if ENV.has_key?("TWITTER_CONSUMER_KEY")
+require_relative "lib/lita/handlers/time_card" if ENV.has_key?("TIME_CARD_PASSWORD")
 
 Lita.configure do |config|
   config.robot.name = "Lita"
@@ -32,5 +33,7 @@ Lita.configure do |config|
     config.handlers.tweet.consumer_secret = ENV.fetch("TWITTER_CONSUMER_SECRET")
   end
 
-  config.handlers.time_card.token = ENV["TIME_CARD_PASSWORD"]
+  if time_card_password = ENV["TIME_CARD_PASSWORD"]
+    config.handlers.time_card.token = time_card_password
+  end
 end

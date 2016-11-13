@@ -8,8 +8,8 @@ module Lita
 
       STRING_TO_MINUTES = {
         /(\d+)m?/i => -> { $1.to_i },
-        /(\d+):(\d+)/i => { $1.to_i * 60 + $2.to_i },
-        /(\d+(?:\.(\d+)))?h/i => { $1.to_f * 60.0 },
+        /(\d+):(\d+)/i => -> { $1.to_i * 60 + $2.to_i },
+        /(\d+(?:\.(\d+)))?h/i => -> { $1.to_f * 60.0 },
       }
 
       route %r{^time_card (?<time>#{Regexp.union STRING_TO_MINUTES.keys})(?: (?<date>\d{4}-\d{2}-\d{2}))? (?<message>.+)}m,
