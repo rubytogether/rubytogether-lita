@@ -26,7 +26,7 @@ module Lita
         log.debug "[time_card] #{user.name} #{date} (#{minutes} minutes): #{message}"
 
         post = { worker: user.name, date: date.to_s, minutes: minutes.to_i, message: message }
-        r = authenticated_connection.post("/entries", post)
+        r = authenticated_connection.post("/entries", post.to_json)
 
         log.debug "[time_card] response = #{r.inspect}"
         response.reply("[time_card]\n```\n#{r.body}\n```")
@@ -46,12 +46,7 @@ module Lita
         _, method, path, json = *response.match_data
         log.debug "[time_card] #{response.message.user.name} #{method} #{path} #{json}"
 
-        post = begin
-          json && JSON.parse(json)
-        rescue => e
-          return response.reply("[time_card] using ```\n#{json}\n``` as a JSON body failed")
-        end
-        r = authenticated_connection.run_request(method.downcase.to_sym, path, post, nil)
+        r = authenticated_connection.run_request(method.downcase.to_sym, path, json, nil)
 
         log.debug "[time_card] response = #{r.inspect}"
         response.reply("[time_card]\n```\n#{r.body}\n```")
