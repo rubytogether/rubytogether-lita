@@ -6,14 +6,21 @@ module Lita
       namespace :time_card
       config :token
 
-      route %r{^time_card (\d+)(?: (\d{4}-\d{2}-\d{2}))? (.+)}m,
+      STRING_TO_MINUTES = {
+        /(\d+)m?/i => -> { $1.to_i },
+        /(\d+):(\d+)/i => { $1.to_i * 60 + $2.to_i },
+        /(\d+(?:\.(\d+)))?h/i => { $1.to_f * 60.0 },
+      }
+
+      route %r{^time_card (?<time>#{Regexp.union STRING_TO_MINUTES.keys})(?: (?<date>\d{4}-\d{2}-\d{2}))? (?<message>.+)}m,
             :log_time,
             command: true,
             help: { "time_card MINUTES [DATE] MESSAGE" => "Add a time card entry." }
 
       def log_time(response)
         user = response.message.user
-        minutes, date, message = *response.match_data
+        minutes, date, message = response.match_data["time"], response.match_data["date"], response.match_data["message"]
+        minutes = parse_time(minutes)
         user_time_zone = user.metadata["tz_offset"].to_i
         date ||= Time.now.getlocal(user_time_zone)
         log.debug "[time_card] #{user.name} #{date} (#{minutes} minutes): #{message}"
@@ -26,6 +33,11 @@ module Lita
 
         log.debug "[time_card] response = #{r.inspect}"
         response.reply("[time_card]\n```json\n#{r.body}\n```")
+      end
+
+      def parse_time(string)
+        _, converter = STRING_TO_MINUTES.find { |pattern, _| string =~ /\A#{pattern}\z/ }
+        converter[]
       end
 
       route %r{^time_card raw (\w+) ([/.\w]+)(.+)?}m,
