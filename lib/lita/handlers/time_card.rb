@@ -90,7 +90,7 @@ module Lita
 
       def authenticated_connection
         Faraday::Connection
-          .new("https://ruby-together-time-card.herokuapp.com") do |conn|
+          .new("https://ruby-together-time-card.herokuapp.com").tap do |conn|
             conn.basic_auth("admin", config.token)
           end
       end
