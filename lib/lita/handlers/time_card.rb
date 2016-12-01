@@ -15,7 +15,7 @@ module Lita
       route %r{^time_card (?<time>#{Regexp.union STRING_TO_MINUTES.keys})(?: (?<date>\d{4}-\d{2}-\d{2}))? (?<message>.+)}m,
             :log_time,
             command: true,
-            help: { "time_card MINUTES [DATE] MESSAGE" => "Add a time card entry." }
+            help: { "time_card MINUTES [YYYY-MM-DD] MESSAGE" => "Add a time card entry." }
 
       def log_time(response)
         user = response.message.user
