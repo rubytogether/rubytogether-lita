@@ -70,9 +70,13 @@ module Lita
         log.debug "[time_card] biweekly report for #{date}"
 
         r = authenticated_connection.get("/report/biweekly/#{date}")
-
         log.debug "[time_card] response = #{r.inspect}"
-        response.reply("[time_card] report for #{date}\n```\n#{r.body}\n```")
+
+        tables = body.gsub("+\n\n+", "+TABLE_DELIMITER+").split("TABLE_DELIMITER")
+        response.reply("[time_card] biweekly report for #{date}")
+        tables.each do |table|
+          response.reply("```\n#{table}\n```")
+        end
       end
 
       route %r{^time_card monthly(?: (\d{4}-\d{2}))?},
@@ -86,9 +90,13 @@ module Lita
         log.debug "[time_card] monthly report for #{date}"
 
         r = authenticated_connection.get("/report/monthly/#{date}")
-
         log.debug "[time_card] response = #{r.inspect}"
-        response.reply("[time_card] report for #{date}\n```\n#{r.body}\n```")
+
+        tables = body.gsub("+\n\n+", "+TABLE_DELIMITER+").split("TABLE_DELIMITER")
+        response.reply("[time_card] monthly report for #{date}")
+        tables.each do |table|
+          response.reply("```\n#{table}\n```")
+        end
       end
 
       private
