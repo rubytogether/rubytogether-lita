@@ -33,7 +33,7 @@ module Lita
         text = "[time_card] logged "
         text << "#{hours}h " unless hours.zero?
         text << "#{minutes}m " unless minutes.zero?
-        text << "on #{date.iso8601}:\n#{message}"
+        text << "on #{date.to_date.iso8601}:\n#{message}"
         response.reply(text)
       end
 
