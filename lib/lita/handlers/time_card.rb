@@ -29,7 +29,12 @@ module Lita
         r = authenticated_connection.post("/entries", post.to_json)
 
         log.debug "[time_card] response = #{r.inspect}"
-        response.reply("[time_card]\n```\n#{r.body}\n```")
+        hours, minutes = minutes.divmod(60)
+        text = "[time_card] logged "
+        text << "#{hours}h " unless hours.zero?
+        text << "#{minutes}m " unless minutes.zero?
+        text << "on #{date.iso8601}:\n#{message}"
+        response.reply(text)
       end
 
       def parse_time(string)
