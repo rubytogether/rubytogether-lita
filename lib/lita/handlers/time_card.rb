@@ -72,11 +72,8 @@ module Lita
         r = authenticated_connection.get("/report/biweekly/#{date}")
         log.debug "[time_card] response = #{r.inspect}"
 
-        tables = body.gsub("+\n\n+", "+TABLE_DELIMITER+").split("TABLE_DELIMITER")
         response.reply("[time_card] biweekly report for #{date}")
-        tables.each do |table|
-          response.reply("```\n#{table}\n```")
-        end
+        reply_with_tables(response, r.body)
       end
 
       route %r{^time_card monthly(?: (\d{4}-\d{2}))?},
@@ -92,11 +89,8 @@ module Lita
         r = authenticated_connection.get("/report/monthly/#{date}")
         log.debug "[time_card] response = #{r.inspect}"
 
-        tables = body.gsub("+\n\n+", "+TABLE_DELIMITER+").split("TABLE_DELIMITER")
         response.reply("[time_card] monthly report for #{date}")
-        tables.each do |table|
-          response.reply("```\n#{table}\n```")
-        end
+        reply_with_tables(response, r.body)
       end
 
       private
@@ -107,6 +101,14 @@ module Lita
             conn.basic_auth("admin", config.token)
           end
       end
+
+      def reply_with_tables(response, body)
+        tables = body.gsub("+\n\n+", "+TABLE_DELIMITER+").split("TABLE_DELIMITER")
+        tables.each do |table|
+          response.reply("```\n#{table.strip}\n```")
+        end
+      end
+
     end
 
     Lita.register_handler(TimeCard)
