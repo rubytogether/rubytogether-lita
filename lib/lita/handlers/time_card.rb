@@ -39,7 +39,7 @@ module Lita
         end.find {|minutes| !minutes.nil? }
       end
 
-      route %r{^time_card raw (\w+) ([/.\w]+)(.+)?}m,
+      route %r{^time_card raw (\w+) (\S+)(?:\s(.+))?}m,
         :raw,
         command: true,
         help: { "time_card raw METHOD PATH [JSON_BODY]" => "Send a raw, authenticated request to the time card API." }
