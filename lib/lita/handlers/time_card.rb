@@ -31,8 +31,8 @@ module Lita
         log.debug "[time_card] response = #{r.inspect}"
         hours, minutes = minutes.divmod(60)
         text = "[time_card] logged "
-        text << "#{hours}h " unless hours.zero?
-        text << "#{minutes}m " unless minutes.zero?
+        text << "#{hours.to_i}h " unless hours.zero?
+        text << "#{minutes.to_i}m " unless minutes.zero?
         text << "on #{date.to_date.iso8601}:\n#{message}"
         response.reply(text)
       end
