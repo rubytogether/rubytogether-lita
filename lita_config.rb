@@ -13,16 +13,13 @@ Lita.configure do |config|
       "indirect" => "U03LDE805",
       "cyrin" => "U0ZBFPJD9"
     }.values
+    config.adapters.slack.token = ENV.fetch("SLACK_TOKEN")
   else
     warn "SLACK_TOKEN is not set, running with shell interface"
     config.robot.adapter = :shell
     config.robot.admins = {"shell user" => "1"}.values
     config.adapters.shell.private_chat = true
   end
-
-  # The slack adapter will throw an error when its token isn't set,
-  # even when `config.robot.adapter = :shell`.
-  config.adapters.slack.token = ENV["SLACK_TOKEN"]
 
   config.redis[:url] = ENV["REDISTOGO_URL"] || ENV["REDIS_URL"] || "redis://localhost:6379"
   config.http.port = ENV.fetch("PORT", "13374")
