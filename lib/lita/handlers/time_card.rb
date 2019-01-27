@@ -27,6 +27,7 @@ module Lita
 
         post = { worker: user.name, date: date.to_s, minutes: minutes.to_i, message: message }
         r = authenticated_connection.post("/entries", post.to_json)
+        return if failed_request?(r, lita_response: response)
 
         log.debug "[time_card] response = #{r.inspect}"
         hours, minutes = minutes.divmod(60)
@@ -54,6 +55,7 @@ module Lita
         log.debug "[time_card] #{response.message.user.name} #{method} #{path} #{json}"
 
         r = authenticated_connection.run_request(method.downcase.to_sym, path, json, nil)
+        return if failed_request?(r, lita_response: response)
 
         log.debug "[time_card] response = #{r.inspect}"
         response.reply("[time_card]\n```\n#{r.body}\n```")
@@ -71,6 +73,7 @@ module Lita
 
         r = authenticated_connection.get("/report/biweekly/#{date}")
         log.debug "[time_card] response = #{r.inspect}"
+        return if failed_request?(r, lita_response: response)
 
         response.reply("[time_card] biweekly report for #{date}")
         reply_with_tables(response, r.body)
@@ -88,6 +91,7 @@ module Lita
 
         r = authenticated_connection.get("/report/monthly/#{date}")
         log.debug "[time_card] response = #{r.inspect}"
+        return if failed_request?(r, lita_response: response)
 
         response.reply("[time_card] monthly report for #{date}")
         reply_with_tables(response, r.body)
@@ -100,6 +104,20 @@ module Lita
           .new("https://ruby-together-time-card.herokuapp.com").tap do |conn|
             conn.basic_auth("admin", config.token)
           end
+      end
+
+      def failed_request?(faraday_response, lita_response: response)
+        return unless faraday_response.success?
+
+        lita_response.reply(<<-EOS)
+[time_card] request failure -- status: #{faraday_response.status}
+
+```
+#{faraday_response.body.chomp}
+```
+        EOS
+
+        true
       end
 
       def reply_with_tables(response, body)
