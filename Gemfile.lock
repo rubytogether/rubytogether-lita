@@ -81,7 +81,7 @@ GEM
       pry (~> 0.10)
     public_suffix (3.0.2)
     puma (3.12.0)
-    rack (1.6.11)
+    rack (1.6.12)
     rb-readline (0.5.5)
     redis (4.0.3)
     redis-namespace (1.6.0)
