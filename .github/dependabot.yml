@@ -11,13 +11,6 @@ updates:
   directory: "/"
   schedule:
     interval: daily
-    time: "09:00"
-    timezone: America/Los_Angeles
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: puma
-    versions:
-    - 5.2.0
-    - 5.2.1
-  registries:
-  - rubygems-server-gems-contribsys-com
+  insecure-external-code-execution: allow
+  registries: "*"
