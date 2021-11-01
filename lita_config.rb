@@ -1,5 +1,4 @@
 require "lita-slack" if ENV.has_key?("SLACK_TOKEN")
-require "lita-tweet" if ENV.has_key?("TWITTER_CONSUMER_KEY")
 require_relative "lib/lita/handlers/time_card" if ENV.has_key?("TIME_CARD_PASSWORD")
 
 Lita.configure do |config|
@@ -23,12 +22,6 @@ Lita.configure do |config|
 
   config.redis[:url] = ENV["REDISTOGO_URL"] || ENV["REDIS_URL"] || "redis://localhost:6379"
   config.http.port = ENV.fetch("PORT", "13374")
-
-  if ENV.has_key?("TWITTER_CONSUMER_KEY")
-    config.handlers.tweet.http_url = ENV["SERVER_URL"]
-    config.handlers.tweet.consumer_key = ENV.fetch("TWITTER_CONSUMER_KEY")
-    config.handlers.tweet.consumer_secret = ENV.fetch("TWITTER_CONSUMER_SECRET")
-  end
 
   if time_card_password = ENV["TIME_CARD_PASSWORD"]
     config.handlers.time_card.token = time_card_password
