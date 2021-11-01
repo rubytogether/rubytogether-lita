@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/litaio/lita-slack.git
+  remote: https://github.com/litaio/lita-slack.git
   revision: 8c02e9f7f8776d3c0f9a2bae20152f2966363cce
   branch: master
   specs:
@@ -107,7 +107,7 @@ GEM
     unf_ext (0.0.7.5)
     url_mount (0.2.1)
       rack
-    websocket-driver (0.7.4)
+    websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
 
@@ -123,7 +123,7 @@ DEPENDENCIES
   pry-byebug
 
 RUBY VERSION
-   ruby 2.6.0p0
+   ruby 2.7.4p191
 
 BUNDLED WITH
-   1.17.3
+   2.1.4
