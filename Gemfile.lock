@@ -115,12 +115,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  lita
-  lita-dotenv
-  lita-retro
+  lita (~> 4.7)
+  lita-dotenv (~> 0.9)
+  lita-retro (~> 1.0)
   lita-slack!
-  lita-tweet (~> 0.4.2)
-  pry-byebug
+  lita-tweet (~> 0.4)
+  pry-byebug (~> 3.6)
 
 RUBY VERSION
    ruby 2.7.4p191
